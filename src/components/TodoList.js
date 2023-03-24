@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TodoForm from './TodoForm.js';
 import Todo from './Todo.js';
 
 
 function TodoList(){
     const [todos, setTodos] = useState([])
+    const [taskDone, setTaskDone] = useState(0)
 
     const addTodo = todo => {
-        console.log(todo)
         const newTodos = [...todos, todo];
-        console.log(newTodos)
         setTodos(newTodos)
-        console.log(typeof todos)
     }
     
+    useEffect(() => {
+        setTaskDone(0)
+        todos.map(todo => {
+            if(todo.isComplete){
+                setTaskDone(taskDone + 1)
+            }
+        })
+    }, [todos])
 
     const updateTodo = (todoId, newValue) => {
         setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)))
@@ -37,7 +43,8 @@ function TodoList(){
     }
      return <div>
                 <h1>What's the plan for today ?</h1>
-                <TodoForm onSubmit={addTodo}/>
+                <h3>You have {todos.length - taskDone} task </h3>
+                <TodoForm onSubmit={addTodo} placeholder="add todo" />
                 <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo}/>
              </div>
     
