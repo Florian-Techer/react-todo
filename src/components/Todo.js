@@ -5,7 +5,7 @@ import { TiEdit } from 'react-icons/ti';
 
 
 
-
+//représente 1 tâche ( ligne )
 function Todo({todos, completeTodo, removeTodo, updateTodo}){
     const [edit, setEdit] = useState({
         id: null,
@@ -21,7 +21,7 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}){
         });
     }
     if(edit.id) {
-        return <TodoForm edit={edit} onSubmit={submitUpdate} />
+        return <TodoForm edit={edit} onSubmit={submitUpdate} placeholder="update todo" />
     }
 
 
