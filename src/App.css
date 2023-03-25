@@ -159,13 +159,22 @@
      margin-right: 5px;
      color: #fff;
  }
+
  .edit-icon {
     color: #fff;
  }
+
  .delete-icon:hover {
     cursor: pointer;
  }
+
  .edit-icon:hover {
    cursor: pointer;
+ }
+
+ #counter-container{
+    display: flex;
+    justify-content: space-around;
+    /* width: 50%; */
  }
 
