@@ -12,21 +12,18 @@ function TodoList(){
         setTodos(newTodos)
     }
     
-    useEffect(() => {
-        setTaskDone(0)
-        todos.map(todo => {
-            if(todo.isComplete){
-                setTaskDone(taskDone + 1)
-            }
-        })
-    }, [todos])
 
     const updateTodo = (todoId, newValue) => {
         setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)))
     }
 
     const removeTodo = (id) => {
-        const removeArray = [...todos].filter(todo => todo.id !== id);
+        const removeArray = [...todos].filter(todo => {
+            if(todo.id == id && todo.isComplete){
+                setTaskDone(taskDone - 1)
+            }
+            return todo.id !== id
+        });
         setTodos(removeArray);
     }
 
@@ -35,6 +32,11 @@ function TodoList(){
         let updatedTodos = todos.map(todo => {
             if(todo.id === id){
                 todo.isComplete = !todo.isComplete
+                if(todo.isComplete){
+                    setTaskDone(taskDone + 1)
+                }else if(!todo.isComplete){
+                    setTaskDone(taskDone - 1)
+                }
             }
             return todo
         })
@@ -43,7 +45,11 @@ function TodoList(){
     }
      return <div>
                 <h1>What's the plan for today ?</h1>
-                <h3>You have {todos.length - taskDone} task </h3>
+                <div id='counter-container'>
+                    <h3>To Do : {todos.length - taskDone}</h3>
+                    <h3>Done : {taskDone}</h3>
+                </div>
+                
                 <TodoForm onSubmit={addTodo} placeholder="add todo" />
                 <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo}/>
              </div>

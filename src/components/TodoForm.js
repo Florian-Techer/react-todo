@@ -15,7 +15,8 @@ function TodoForm(props){
         if(input){
             props.onSubmit({
                 id: new Date().getTime(),
-                text: input
+                text: input,
+                isComplete: false
             })
         }
     }
