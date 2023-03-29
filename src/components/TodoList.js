@@ -7,8 +7,19 @@ function TodoList(){
     const [todos, setTodos] = useState([])
     const [taskDone, setTaskDone] = useState(0)
 
+    useEffect(() => {
+        if(localStorage.getItem('todoList')){
+            setTodos(JSON.parse(localStorage.getItem('todoList')))
+        }
+    },[])
+
+    const setTodosLocalStorage = (todoList) => {
+        localStorage.setItem('todoList', JSON.stringify(todoList));
+    }
+
     const addTodo = todo => {
         const newTodos = [...todos, todo];
+        setTodosLocalStorage(newTodos)
         setTodos(newTodos)
     }
     
@@ -19,11 +30,12 @@ function TodoList(){
 
     const removeTodo = (id) => {
         const removeArray = [...todos].filter(todo => {
-            if(todo.id == id && todo.isComplete){
+            if(todo.id === id && todo.isComplete){
                 setTaskDone(taskDone - 1)
             }
             return todo.id !== id
         });
+        setTodosLocalStorage(removeArray)
         setTodos(removeArray);
     }
 
@@ -40,7 +52,7 @@ function TodoList(){
             }
             return todo
         })
-
+        setTodosLocalStorage(updatedTodos)
         setTodos(updatedTodos);
     }
      return <div>
