@@ -36,12 +36,11 @@ function TodoList(){
         const removeArray = [...todos].filter(todo => {
             if(todo.id === id && todo.isComplete){
                 setTaskDone(taskDone - 1)
-                setLocalStorage('taskDone', taskDone)
+                setLocalStorage('taskDone', taskDone-1)
             }
             return todo.id !== id
         });
         setLocalStorage('todoList', removeArray)
-        setLocalStorage('taskDone', taskDone)
         setTodos(removeArray);
     }
 
