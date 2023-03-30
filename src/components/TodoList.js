@@ -9,12 +9,15 @@ function TodoList(){
 
     useEffect(() => {
         if(localStorage.getItem('todoList')){
-            console.log(JSON.parse(localStorage.getItem('todoList')))
             setTodos(JSON.parse(localStorage.getItem('todoList')))
             setTaskDone(JSON.parse(localStorage.getItem('taskDone')))    
         }
-        console.log("b")   
     }, [])
+
+    useEffect(() => {
+        setLocalStorage('taskDone', taskDone)
+        setLocalStorage('todoList', todos)
+    }, [todos])
 
     const setLocalStorage = (key, value) => {
         window.localStorage.setItem(key, JSON.stringify(value));
@@ -22,8 +25,6 @@ function TodoList(){
 
     const addTodo = todo => {
         const newTodos = [...todos, todo];
-        setLocalStorage('todoList', newTodos)
-        setLocalStorage('taskDone', taskDone)
         setTodos(newTodos)
     }
     
@@ -36,11 +37,9 @@ function TodoList(){
         const removeArray = [...todos].filter(todo => {
             if(todo.id === id && todo.isComplete){
                 setTaskDone(taskDone - 1)
-                setLocalStorage('taskDone', taskDone-1)
             }
             return todo.id !== id
         });
-        setLocalStorage('todoList', removeArray)
         setTodos(removeArray);
     }
 
@@ -51,15 +50,12 @@ function TodoList(){
                 todo.isComplete = !todo.isComplete
                 if(todo.isComplete){
                     setTaskDone(taskDone + 1)
-                    setLocalStorage('taskDone', taskDone+1)
                 }else if(!todo.isComplete){
                     setTaskDone(taskDone - 1)
-                    setLocalStorage('taskDone', taskDone-1)
                 }
             }
             return todo
         })
-        setLocalStorage('todoList', updatedTodos)
         
         setTodos(updatedTodos);
     }
